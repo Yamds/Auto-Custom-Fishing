@@ -1,0 +1,24 @@
+{
+  "config.autofishing.title": "Auto Fishing Configuration",
+  "config.autofishing.category.main": "Main Settings",
+  "config.autofishing.category.logs": "Fishing Logs",
+  "config.autofishing.category.prediction": "Prediction Settings",
+  
+  "config.autofishing.mod_enabled": "Enable Mod",
+  "config.autofishing.mod_enabled.tooltip": "Toggle the auto fishing mod on/off",
+  
+  "config.autofishing.global_advance": "Global Advance Amount",
+  "config.autofishing.global_advance.tooltip": "Extra advance amount applied to all bars and all speeds (-1.0 to 3.0 positions)",
+  
+  "config.autofishing.auto_recast_minutes": "Auto Recast Timeout (minutes)",
+  "config.autofishing.auto_recast_minutes.tooltip": "Reel in and recast if no reel occurs after this time (0 to disable)",
+  
+  "config.autofishing.keybind.info": "Keybind: Configure in Controls > Key Binds",
+  
+  "config.autofishing.logs.title": "Recent 20 Fishing Records",
+  "config.autofishing.logs.empty": "No records yet",
+  
+  "key.autofishing.toggle": "Toggle Auto Fishing",
+  "key.category.autofishing.autofishing": "Auto Fishing",
+  "key.autofishing.config": "Open Config Screen"
+}

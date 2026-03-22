@@ -1,11 +1,11 @@
 {
 	"schemaVersion": 1,
-	"id": "modid",
+	"id": "autofishing",
 	"version": "${version}",
-	"name": "Example mod",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"name": "Auto Fishing Mod",
+	"description": "Automatic fishing mod for CustomFishing plugin (River fishing support)",
 	"authors": [
-		"Me!"
+		"AutoFishing Team"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
@@ -16,16 +16,19 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"com.example.ExampleMod"
+			"com.autofishing.AutoFishingMod"
 		],
 		"client": [
-			"com.example.ExampleModClient"
+			"com.autofishing.AutoFishingClient"
+		],
+		"modmenu": [
+			"com.autofishing.config.ModMenuIntegration"
 		]
 	},
 	"mixins": [
-		"modid.mixins.json",
+		"autofishing.mixins.json",
 		{
-			"config": "modid.client.mixins.json",
+			"config": "autofishing.client.mixins.json",
 			"environment": "client"
 		}
 	],

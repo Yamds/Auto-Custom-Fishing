@@ -1,9 +1,10 @@
 {
 	"required": true,
-	"package": "com.example.mixin.client",
+	"package": "com.autofishing.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
-		"ExampleClientMixin"
+		"TitlePacketMixin",
+		"FishingHookMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
