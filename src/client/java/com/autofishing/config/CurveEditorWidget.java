@@ -1,6 +1,6 @@
 package com.autofishing.config;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
@@ -40,7 +40,7 @@ public class CurveEditorWidget extends AbstractWidget {
     }
     
     @Override
-    public void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    protected void extractWidgetRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
         // 绘制背景
         graphics.fill(getX(), getY(), getX() + width, getY() + height, 0xFF000000);
         
@@ -66,7 +66,7 @@ public class CurveEditorWidget extends AbstractWidget {
         drawLabels(graphics, plotX, plotY, plotWidth, plotHeight);
     }
     
-    private void drawGrid(GuiGraphics graphics, int x, int y, int width, int height) {
+    private void drawGrid(GuiGraphicsExtractor graphics, int x, int y, int width, int height) {
         // 垂直网格线（每5ms一条）
         for (int i = 0; i <= 7; i++) {
             int gridX = x + width - (int)(i * width / 7.0); // 从右到左
@@ -80,7 +80,7 @@ public class CurveEditorWidget extends AbstractWidget {
         }
     }
     
-    private void drawAxes(GuiGraphics graphics, int x, int y, int width, int height) {
+    private void drawAxes(GuiGraphicsExtractor graphics, int x, int y, int width, int height) {
         // X轴（底部）
         graphics.fill(x, y + height, x + width, y + height + 1, AXIS_COLOR);
         
@@ -88,7 +88,7 @@ public class CurveEditorWidget extends AbstractWidget {
         graphics.fill(x, y, x + 1, y + height, AXIS_COLOR);
     }
     
-    private void drawCurve(GuiGraphics graphics, int x, int y, int width, int height) {
+    private void drawCurve(GuiGraphicsExtractor graphics, int x, int y, int width, int height) {
         // 绘制曲线（采样100个点）
         int prevX = -1, prevY = -1;
         
@@ -108,7 +108,7 @@ public class CurveEditorWidget extends AbstractWidget {
         }
     }
     
-    private void drawPoints(GuiGraphics graphics, int x, int y, int width, int height, int mouseX, int mouseY) {
+    private void drawPoints(GuiGraphicsExtractor graphics, int x, int y, int width, int height, int mouseX, int mouseY) {
         List<CurvePoint> points = curve.getPoints();
         hoveredPoint = null;
         
@@ -131,26 +131,26 @@ public class CurveEditorWidget extends AbstractWidget {
             // 绘制点的坐标
             if (isHovered) {
                 String label = String.format("%.1fms, %.1f", point.speedMs, point.advanceAmount);
-                graphics.drawString(net.minecraft.client.Minecraft.getInstance().font, label, pointX + 8, pointY - 4, 0xFFFFFFFF);
+                graphics.text(net.minecraft.client.Minecraft.getInstance().font, label, pointX + 8, pointY - 4, 0xFFFFFFFF);
             }
         }
     }
     
-    private void drawLabels(GuiGraphics graphics, int x, int y, int width, int height) {
+    private void drawLabels(GuiGraphicsExtractor graphics, int x, int y, int width, int height) {
         net.minecraft.client.gui.Font font = net.minecraft.client.Minecraft.getInstance().font;
         
         // X轴标签（从右到左：35ms到0ms）
-        graphics.drawString(font, "35ms", x - 15, y + height + 5, 0xFFFFFFFF);
-        graphics.drawString(font, "0ms", x + width - 15, y + height + 5, 0xFFFFFFFF);
-        graphics.drawString(font, "速度 (ms/section)", x + width / 2 - 40, y + height + 15, 0xFFFFFFFF);
+        graphics.text(font, "35ms", x - 15, y + height + 5, 0xFFFFFFFF);
+        graphics.text(font, "0ms", x + width - 15, y + height + 5, 0xFFFFFFFF);
+        graphics.text(font, "速度 (ms/section)", x + width / 2 - 40, y + height + 15, 0xFFFFFFFF);
         
         // Y轴标签
-        graphics.drawString(font, "3", x - 15, y - 5, 0xFFFFFFFF);
-        graphics.drawString(font, "1", x - 15, y + height / 2 - 5, 0xFFFFFFFF);
-        graphics.drawString(font, "-1", x - 20, y + height - 5, 0xFFFFFFFF);
+        graphics.text(font, "3", x - 15, y - 5, 0xFFFFFFFF);
+        graphics.text(font, "1", x - 15, y + height / 2 - 5, 0xFFFFFFFF);
+        graphics.text(font, "-1", x - 20, y + height - 5, 0xFFFFFFFF);
     }
     
-    private void drawLine(GuiGraphics graphics, int x1, int y1, int x2, int y2, int color) {
+    private void drawLine(GuiGraphicsExtractor graphics, int x1, int y1, int x2, int y2, int color) {
         // 简单的线段绘制（Bresenham算法）
         int dx = Math.abs(x2 - x1);
         int dy = Math.abs(y2 - y1);

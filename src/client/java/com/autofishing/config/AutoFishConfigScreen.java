@@ -179,6 +179,11 @@ public class AutoFishConfigScreen {
             }
             
             @Override
+            public int getItemHeight() {
+                return 20;
+            }
+            
+            @Override
             public java.util.List<? extends net.minecraft.client.gui.components.events.GuiEventListener> children() {
                 return button == null ? java.util.Collections.emptyList() : java.util.Collections.singletonList(button);
             }
@@ -189,7 +194,7 @@ public class AutoFishConfigScreen {
             }
             
             @Override
-            public void render(net.minecraft.client.gui.GuiGraphics graphics, int index, int y, int x, 
+            public void extractRenderState(net.minecraft.client.gui.GuiGraphicsExtractor graphics, int index, int y, int x, 
                              int entryWidth, int entryHeight, int mouseX, int mouseY, 
                              boolean isHovered, float delta) {
                 if (button == null) {
@@ -197,8 +202,8 @@ public class AutoFishConfigScreen {
                         Component.literal("打开曲线编辑器"),
                         btn -> {
                             net.minecraft.client.Minecraft mc = net.minecraft.client.Minecraft.getInstance();
-                            Screen currentScreen = mc.screen;
-                            mc.setScreen(new CurveEditorScreen(currentScreen, finalBarNum));
+                            net.minecraft.client.gui.screens.Screen currentScreen = mc.gui.screen();
+                            mc.gui.setScreen(new CurveEditorScreen(currentScreen, finalBarNum));
                         }
                     )
                     .bounds(x + entryWidth / 2 - 75, y, 150, 20)
@@ -207,7 +212,7 @@ public class AutoFishConfigScreen {
                     button.setX(x + entryWidth / 2 - 75);
                     button.setY(y);
                 }
-                button.render(graphics, mouseX, mouseY, delta);
+                button.extractRenderState(graphics, mouseX, mouseY, delta);
             }
         });
 

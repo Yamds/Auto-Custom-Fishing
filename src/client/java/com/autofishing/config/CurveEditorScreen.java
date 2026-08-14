@@ -1,6 +1,6 @@
 package com.autofishing.config;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -54,14 +54,14 @@ public class CurveEditorScreen extends Screen {
                 // 保存曲线到配置
                 AutoFishConfig.get().barCurves.put(barNum, curve.getPoints());
                 AutoFishConfig.save();
-                minecraft.setScreen(parent);
+                minecraft.gui.setScreen(parent);
             }
         ).bounds(width / 2 - 105, buttonY, 100, 20).build());
         
         // 取消按钮
         addRenderableWidget(Button.builder(
             Component.literal("取消"),
-            button -> minecraft.setScreen(parent)
+            button -> minecraft.gui.setScreen(parent)
         ).bounds(width / 2 + 5, buttonY, 100, 20).build());
         
         // 重置按钮
@@ -92,20 +92,20 @@ public class CurveEditorScreen extends Screen {
     }
     
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
         // 渲染所有组件（包括背景）
-        super.render(graphics, mouseX, mouseY, partialTick);
+        super.extractRenderState(graphics, mouseX, mouseY, partialTick);
         
         // 绘制标题
-        graphics.drawCenteredString(font, title, width / 2, 20, 0xFFFFFFFF);
+        graphics.centeredText(font, title, width / 2, 20, 0xFFFFFFFF);
         
         // 绘制说明
         String help = "左键：添加/拖动点 | 右键：删除点 | 横轴：速度(ms) | 纵轴：提前量(格)";
-        graphics.drawCenteredString(font, help, width / 2, height - 30, 0xFFAAAAAA);
+        graphics.centeredText(font, help, width / 2, height - 30, 0xFFAAAAAA);
     }
     
     @Override
     public void onClose() {
-        minecraft.setScreen(parent);
+        minecraft.gui.setScreen(parent);
     }
 }

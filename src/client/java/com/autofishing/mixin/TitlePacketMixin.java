@@ -2,14 +2,14 @@ package com.autofishing.mixin;
 
 import com.autofishing.config.AutoFishConfig;
 import com.autofishing.game.TitleAnalyzer;
-import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.Hud;
 import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(Gui.class)
+@Mixin(Hud.class)
 public class TitlePacketMixin {
     
     /**

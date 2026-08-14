@@ -376,9 +376,8 @@ public class TitleAnalyzer {
         try {
             net.minecraft.client.Minecraft mc = net.minecraft.client.Minecraft.getInstance();
             if (mc.player != null) {
-                mc.player.displayClientMessage(
-                    net.minecraft.network.chat.Component.literal(message),
-                    true  // true = ActionBar
+                mc.player.sendOverlayMessage(
+                    net.minecraft.network.chat.Component.literal(message)
                 );
             }
         } catch (Exception e) {

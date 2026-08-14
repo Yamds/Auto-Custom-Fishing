@@ -1,6 +1,6 @@
 package com.autofishing.config;
 
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.resources.Identifier;
 import org.lwjgl.glfw.GLFW;
@@ -18,13 +18,13 @@ public class KeyBindings {
     public static KeyMapping openConfig;
     
     public static void register() {
-        toggleAutoFishing = KeyBindingHelper.registerKeyBinding(new KeyMapping(
+        toggleAutoFishing = KeyMappingHelper.registerKeyMapping(new KeyMapping(
             "key.autofishing.toggle",
             GLFW.GLFW_KEY_R,  // 默认按键：R
             AUTO_FISHING_CATEGORY  // 使用自定义分类
         ));
         
-        openConfig = KeyBindingHelper.registerKeyBinding(new KeyMapping(
+        openConfig = KeyMappingHelper.registerKeyMapping(new KeyMapping(
             "key.autofishing.config",
             GLFW.GLFW_KEY_O,  // 默认按键：O
             AUTO_FISHING_CATEGORY  // 使用自定义分类

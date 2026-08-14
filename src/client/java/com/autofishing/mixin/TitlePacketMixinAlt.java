@@ -2,7 +2,7 @@ package com.autofishing.mixin;
 
 import com.autofishing.config.AutoFishConfig;
 import com.autofishing.game.TitleAnalyzer;
-import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.Hud;
 import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -11,10 +11,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * 备用方案：拦截Gui的setTitle和setSubtitle方法
+ * 备用方案：拦截Hud的setTitle和setSubtitle方法
  * 这个方法更稳定，不依赖于网络数据包的具体实现
  */
-@Mixin(Gui.class)
+@Mixin(Hud.class)
 public abstract class TitlePacketMixinAlt {
     
     @Shadow

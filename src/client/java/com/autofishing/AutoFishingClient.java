@@ -29,11 +29,10 @@ public class AutoFishingClient implements ClientModInitializer {
                 AutoFishConfig.save();
                 
                 if (client.player != null) {
-                    client.player.displayClientMessage(
+                    client.player.sendSystemMessage(
                         Component.literal(
                             config.modEnabled ? "§a[Auto Fishing] Enabled" : "§c[Auto Fishing] Disabled"
-                        ),
-                        false
+                        )
                     );
                 }
                 AutoFishingMod.LOGGER.info("Auto Fishing: {}", config.modEnabled ? "ON" : "OFF");
@@ -42,7 +41,7 @@ public class AutoFishingClient implements ClientModInitializer {
             // 检查快捷键 - 打开配置界面
             while (KeyBindings.openConfig.consumeClick()) {
                 if (client.player != null) {
-                    client.setScreen(AutoFishConfigScreen.createConfigScreen(client.screen));
+                    client.gui.setScreen(AutoFishConfigScreen.createConfigScreen(client.gui.screen()));
                 }
             }
             

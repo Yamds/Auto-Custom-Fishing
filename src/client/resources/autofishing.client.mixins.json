@@ -1,12 +1,16 @@
 {
 	"required": true,
+	"minVersion": "0.8",
 	"package": "com.autofishing.mixin",
-	"compatibilityLevel": "JAVA_21",
+	"compatibilityLevel": "JAVA_25",
 	"client": [
 		"TitlePacketMixin",
 		"FishingHookMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
+	},
+	"overwrites": {
+		"requireAnnotations": true
 	}
 }
