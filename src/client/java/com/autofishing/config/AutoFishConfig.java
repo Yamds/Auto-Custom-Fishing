@@ -22,7 +22,7 @@ public class AutoFishConfig {
     // ========== 主设置 ==========
     public boolean modEnabled = true;  // Mod总开关
     public double globalAdvance = 0.0;  // 全局提前量（-2.0 到 2.0）
-    public double autoRecastMinutes = 3.0;  // 抛竿后自动收杆（分钟）
+    public double autoRecastMinutes = 2.0;  // 抛竿后自动收杆（分钟），默认值来自游戏中调校的最佳延迟（autofishing.json）
     
     // ========== 曲线设置 ==========
     // 每个bar的提前量曲线
@@ -31,18 +31,11 @@ public class AutoFishConfig {
     // ========== 单例和持久化 ==========
     private static AutoFishConfig instance;
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    
-    // 优先使用部署目录配置（与版本目录共存，可直接编辑此文件调整延迟/曲线）
-    private static final File DEPLOY_CONFIG_FILE = new File("E:/Game/Minecraft/.minecraft/versions/26.2-Fabric 0.19.3/config/autofishing.json");
-    // 回退：运行目录配置（开发环境 run/ 或其他启动器使用）
-    private static final File RUNTIME_CONFIG_FILE = new File("config/autofishing.json");
-    
-    private static File getConfigFile() {
-        return DEPLOY_CONFIG_FILE.exists() ? DEPLOY_CONFIG_FILE : RUNTIME_CONFIG_FILE;
-    }
+    private static final File CONFIG_FILE = new File("config/autofishing.json");
     
     public AutoFishConfig() {
         // 初始化所有bar的默认曲线
+        // 默认值 = 用户在游戏中调校的最佳延迟（对应 versions/26.2-Fabric 0.19.3/config/autofishing.json）
         // Bar 1-3: 11格bar，简单配置
         for (int i = 1; i <= 3; i++) {
             List<CurvePoint> curve = new ArrayList<>();
@@ -80,13 +73,12 @@ public class AutoFishConfig {
     
     public static void load() {
         try {
-            File configFile = getConfigFile();
-            if (!configFile.getParentFile().exists()) {
-                configFile.getParentFile().mkdirs();
+            if (!CONFIG_FILE.getParentFile().exists()) {
+                CONFIG_FILE.getParentFile().mkdirs();
             }
             
-            if (configFile.exists()) {
-                try (FileReader reader = new FileReader(configFile)) {
+            if (CONFIG_FILE.exists()) {
+                try (FileReader reader = new FileReader(CONFIG_FILE)) {
                     instance = GSON.fromJson(reader, AutoFishConfig.class);
                     // 确保所有bar曲线都存在
                     // Bar 1-3
@@ -119,29 +111,28 @@ public class AutoFishConfig {
                             instance.barCurves.put(i, curve);
                         }
                     }
-                    AutoFishingMod.LOGGER.info("Config loaded from {}", configFile.getPath());
+                    AutoFishingMod.LOGGER.info("Config loaded from {}", CONFIG_FILE.getPath());
                 }
             } else {
                 instance = new AutoFishConfig();
                 save();
-                AutoFishingMod.LOGGER.info("Created default config at {}", configFile.getPath());
+                AutoFishingMod.LOGGER.info("Created default config at {}", CONFIG_FILE.getPath());
             }
         } catch (Exception e) {
             AutoFishingMod.LOGGER.error("Failed to load config", e);
             instance = new AutoFishConfig();
         }
 
-        // 确保新增配置有默认值
+        // 确保新增配置有默认值（负数视为异常，重置为调校后的默认延迟）
         if (instance.autoRecastMinutes < 0) {
-            instance.autoRecastMinutes = 3.0;
+            instance.autoRecastMinutes = 2.0;
         }
     }
     
     public static void save() {
-        File configFile = getConfigFile();
-        try (FileWriter writer = new FileWriter(configFile)) {
+        try (FileWriter writer = new FileWriter(CONFIG_FILE)) {
             GSON.toJson(instance, writer);
-            AutoFishingMod.LOGGER.info("Config saved to {}", configFile.getPath());
+            AutoFishingMod.LOGGER.info("Config saved to {}", CONFIG_FILE.getPath());
         } catch (IOException e) {
             AutoFishingMod.LOGGER.error("Failed to save config", e);
         }
