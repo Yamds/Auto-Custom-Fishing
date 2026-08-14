@@ -31,7 +31,15 @@ public class AutoFishConfig {
     // ========== 单例和持久化 ==========
     private static AutoFishConfig instance;
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    private static final File CONFIG_FILE = new File("config/autofishing.json");
+    
+    // 优先使用部署目录配置（与版本目录共存，可直接编辑此文件调整延迟/曲线）
+    private static final File DEPLOY_CONFIG_FILE = new File("E:/Game/Minecraft/.minecraft/versions/26.2-Fabric 0.19.3/config/autofishing.json");
+    // 回退：运行目录配置（开发环境 run/ 或其他启动器使用）
+    private static final File RUNTIME_CONFIG_FILE = new File("config/autofishing.json");
+    
+    private static File getConfigFile() {
+        return DEPLOY_CONFIG_FILE.exists() ? DEPLOY_CONFIG_FILE : RUNTIME_CONFIG_FILE;
+    }
     
     public AutoFishConfig() {
         // 初始化所有bar的默认曲线
@@ -72,12 +80,13 @@ public class AutoFishConfig {
     
     public static void load() {
         try {
-            if (!CONFIG_FILE.getParentFile().exists()) {
-                CONFIG_FILE.getParentFile().mkdirs();
+            File configFile = getConfigFile();
+            if (!configFile.getParentFile().exists()) {
+                configFile.getParentFile().mkdirs();
             }
             
-            if (CONFIG_FILE.exists()) {
-                try (FileReader reader = new FileReader(CONFIG_FILE)) {
+            if (configFile.exists()) {
+                try (FileReader reader = new FileReader(configFile)) {
                     instance = GSON.fromJson(reader, AutoFishConfig.class);
                     // 确保所有bar曲线都存在
                     // Bar 1-3
@@ -110,12 +119,12 @@ public class AutoFishConfig {
                             instance.barCurves.put(i, curve);
                         }
                     }
-                    AutoFishingMod.LOGGER.info("Config loaded from {}", CONFIG_FILE.getPath());
+                    AutoFishingMod.LOGGER.info("Config loaded from {}", configFile.getPath());
                 }
             } else {
                 instance = new AutoFishConfig();
                 save();
-                AutoFishingMod.LOGGER.info("Created default config at {}", CONFIG_FILE.getPath());
+                AutoFishingMod.LOGGER.info("Created default config at {}", configFile.getPath());
             }
         } catch (Exception e) {
             AutoFishingMod.LOGGER.error("Failed to load config", e);
@@ -129,9 +138,10 @@ public class AutoFishConfig {
     }
     
     public static void save() {
-        try (FileWriter writer = new FileWriter(CONFIG_FILE)) {
+        File configFile = getConfigFile();
+        try (FileWriter writer = new FileWriter(configFile)) {
             GSON.toJson(instance, writer);
-            AutoFishingMod.LOGGER.info("Config saved to {}", CONFIG_FILE.getPath());
+            AutoFishingMod.LOGGER.info("Config saved to {}", configFile.getPath());
         } catch (IOException e) {
             AutoFishingMod.LOGGER.error("Failed to save config", e);
         }
