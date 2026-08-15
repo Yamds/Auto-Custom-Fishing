@@ -1,4 +1,4 @@
-# Auto Fishing Mod for CustomFishing
+# Auto Custom Fishing for CustomFishing
 
 ## Notice
 

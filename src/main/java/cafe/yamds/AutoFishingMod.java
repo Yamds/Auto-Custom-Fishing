@@ -1,4 +1,4 @@
-package com.autofishing;
+package cafe.yamds;
 
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;

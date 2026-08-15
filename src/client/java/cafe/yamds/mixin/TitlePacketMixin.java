@@ -1,7 +1,7 @@
-package com.autofishing.mixin;
+package cafe.yamds.mixin;
 
-import com.autofishing.config.AutoFishConfig;
-import com.autofishing.game.TitleAnalyzer;
+import cafe.yamds.config.AutoFishConfig;
+import cafe.yamds.game.TitleAnalyzer;
 import net.minecraft.client.gui.Hud;
 import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Mixin;

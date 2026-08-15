@@ -1,7 +1,7 @@
-package com.autofishing.game;
+package cafe.yamds.game;
 
-import com.autofishing.config.AutoFishConfig;
-import com.autofishing.config.FishingLog;
+import cafe.yamds.config.AutoFishConfig;
+import cafe.yamds.config.FishingLog;
 
 public class TitleAnalyzer {
     

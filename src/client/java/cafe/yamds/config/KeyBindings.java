@@ -1,4 +1,4 @@
-package com.autofishing.config;
+package cafe.yamds.config;
 
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.minecraft.client.KeyMapping;

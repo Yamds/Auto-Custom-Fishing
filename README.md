@@ -1,4 +1,4 @@
-# Auto Fishing Mod for CustomFishing
+# Auto Custom Fishing for CustomFishing
 
 > **English**: [README_EN.md](README_EN.md) | **中文**: 本文件
 
