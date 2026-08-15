@@ -13,6 +13,12 @@
   "config.autofishing.auto_recast_minutes": "自动收杆时间（分钟）",
   "config.autofishing.auto_recast_minutes.tooltip": "超过该时间仍未收杆则自动收杆并重新抛竿（填0关闭）",
   
+  "config.autofishing.cast_interval": "抛竿间隔（秒）",
+  "config.autofishing.cast_interval.tooltip": "收杆后到重新抛竿的基础等待时间 (0.1-10秒)",
+  
+  "config.autofishing.cast_interval_random": "抛竿间隔随机浮动（秒）",
+  "config.autofishing.cast_interval_random.tooltip": "每次实际间隔在基础值±范围内随机，模拟真人操作（0-5秒，填0关闭随机）",
+  
   "config.autofishing.keybind.info": "快捷键：在 控制 > 按键绑定 中配置",
   
   "config.autofishing.logs.title": "最近20条钓鱼记录",

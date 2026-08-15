@@ -22,7 +22,9 @@ public class AutoFishConfig {
     // ========== 主设置 ==========
     public boolean modEnabled = true;  // Mod总开关
     public double globalAdvance = 0.0;  // 全局提前量（-2.0 到 2.0）
-    public double autoRecastMinutes = 3.0;  // 抛竿后自动收杆（分钟）
+    public double autoRecastMinutes = 2.0;  // 抛竿后自动收杆（分钟），默认值来自游戏中调校的最佳延迟（autofishing.json）
+    public double castIntervalSeconds = 1.0;  // 抛竿间隔（秒）：收杆后到重新抛竿的基础等待时间
+    public double castIntervalRandomSeconds = 0.5;  // 抛竿间隔随机浮动（秒）：每次实际间隔在基础值±范围内随机，模拟真人操作
     
     // ========== 曲线设置 ==========
     // 每个bar的提前量曲线
@@ -122,9 +124,9 @@ public class AutoFishConfig {
             instance = new AutoFishConfig();
         }
 
-        // 确保新增配置有默认值
+        // 确保新增配置有默认值（负数视为异常，重置为调校后的默认延迟）
         if (instance.autoRecastMinutes < 0) {
-            instance.autoRecastMinutes = 3.0;
+            instance.autoRecastMinutes = 2.0;
         }
     }
     
