@@ -21,6 +21,7 @@ public class FishingController {
     private static long reeledTime = 0; // 收杆时间
     private static boolean waitingForGame = false; // 是否在等待游戏开始
     private static long castStartTime = 0; // 投竿开始时间（用于超时重抛）
+    private static long noHookSince = 0; // 鱼钩消失计时（异常兜底：1分钟未抛竿强制抛竿）
     
     private enum FishingState {
         IDLE,           // 空闲
@@ -86,6 +87,21 @@ public class FishingController {
             scheduleRecast();
             reset();
             return;
+        }
+        
+        // 异常兜底：鱼钩消失超过1分钟仍未重新抛竿（状态机卡死），强制抛竿
+        if (player.fishing == null) {
+            if (noHookSince == 0) {
+                noHookSince = currentTime;
+            } else if (currentTime - noHookSince > 60_000) {
+                sendActionBarMessage("§c⚠检测到1分钟未抛竿，强制抛竿...");
+                noHookSince = 0;
+                scheduleRecast();
+                reset();
+                return;
+            }
+        } else {
+            noHookSince = 0; // 鱼钩存在，重置计时
         }
         
         // 状态机逻辑
@@ -255,6 +271,7 @@ public class FishingController {
         waitingForGame = false;
         reeledTime = 0;
         castStartTime = 0;
+        noHookSince = 0;
         TitleAnalyzer.reset();
     }
 
