@@ -13,6 +13,12 @@
   "config.autofishing.auto_recast_minutes": "Auto Recast Timeout (minutes)",
   "config.autofishing.auto_recast_minutes.tooltip": "Reel in and recast if no reel occurs after this time (0 to disable)",
   
+  "config.autofishing.cast_interval": "Cast Interval (seconds)",
+  "config.autofishing.cast_interval.tooltip": "Base waiting time between reeling in and recasting (0.1-10s)",
+  
+  "config.autofishing.cast_interval_random": "Cast Interval Randomness (seconds)",
+  "config.autofishing.cast_interval_random.tooltip": "Each actual interval is randomized within base value ± range, simulating human operation (0-5s, 0 to disable)",
+  
   "config.autofishing.keybind.info": "Keybind: Configure in Controls > Key Binds",
   
   "config.autofishing.logs.title": "Recent 20 Fishing Records",

@@ -1,5 +1,7 @@
 # Auto Fishing Mod for CustomFishing
 
+> **English**: [README_EN.md](README_EN.md) | **中文**: 本文件
+
 ## 说明
 
 本项目代码来自 **100% AI 生成**。
@@ -125,6 +127,8 @@ Custom-Fishing 的河钓并不是原版 Minecraft 那种“浮漂下沉就收杆
 - `modEnabled`：总开关
 - `globalAdvance`：全局提前量微调，作用于所有 bar
 - `autoRecastMinutes`：抛竿后超时自动收杆的时间，单位分钟，设为 `0` 可关闭
+- `castIntervalSeconds`：收杆后到重新抛竿的基础等待时间，单位秒
+- `castIntervalRandomSeconds`：抛竿间隔随机浮动范围，单位秒；每次实际间隔在“基础值 ± 范围”内随机，模拟真人操作，设为 `0` 关闭随机
 - `barCurves`：每个 bar 的提前量曲线，按“速度(ms/section) -> 提前量”配置
 
 默认思路是：

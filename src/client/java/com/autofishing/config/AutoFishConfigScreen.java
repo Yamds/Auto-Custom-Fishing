@@ -61,10 +61,38 @@ public class AutoFishConfigScreen {
                 Component.translatable("config.autofishing.auto_recast_minutes"),
                 config.autoRecastMinutes
             )
-            .setDefaultValue(3.0)
+            .setDefaultValue(2.0)
             .setMin(0.0)
             .setTooltip(Component.translatable("config.autofishing.auto_recast_minutes.tooltip"))
             .setSaveConsumer(value -> config.autoRecastMinutes = value)
+            .build()
+        );
+
+        // 抛竿间隔（秒）
+        mainCategory.addEntry(entryBuilder
+            .startDoubleField(
+                Component.translatable("config.autofishing.cast_interval"),
+                config.castIntervalSeconds
+            )
+            .setDefaultValue(1.0)
+            .setMin(0.1)
+            .setMax(10.0)
+            .setTooltip(Component.translatable("config.autofishing.cast_interval.tooltip"))
+            .setSaveConsumer(value -> config.castIntervalSeconds = value)
+            .build()
+        );
+
+        // 抛竿间隔随机浮动（秒）
+        mainCategory.addEntry(entryBuilder
+            .startDoubleField(
+                Component.translatable("config.autofishing.cast_interval_random"),
+                config.castIntervalRandomSeconds
+            )
+            .setDefaultValue(0.5)
+            .setMin(0.0)
+            .setMax(5.0)
+            .setTooltip(Component.translatable("config.autofishing.cast_interval_random.tooltip"))
+            .setSaveConsumer(value -> config.castIntervalRandomSeconds = value)
             .build()
         );
         

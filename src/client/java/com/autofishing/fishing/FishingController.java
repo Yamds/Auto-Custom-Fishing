@@ -215,13 +215,21 @@ public class FishingController {
     }
     
     /**
-     * 安排重新投竿
+     * 安排重新投竿（间隔可配置，带随机浮动）
      */
     private static void scheduleRecast() {
-        // 延迟1秒后重新投竿
+        // 基础间隔 ± 随机浮动（秒），模拟真人操作节奏
+        AutoFishConfig cfg = AutoFishConfig.get();
+        double base = Math.max(0.1, cfg.castIntervalSeconds);
+        double range = Math.max(0.0, cfg.castIntervalRandomSeconds);
+        double delayMs = (base - range + RANDOM.nextDouble() * range * 2.0) * 1000.0;
+        if (delayMs < 200) {
+            delayMs = 200; // 下限保护，避免操作过快
+        }
+        final long sleepMs = (long) delayMs;
         new Thread(() -> {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(sleepMs);
                 state = FishingState.IDLE;
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
