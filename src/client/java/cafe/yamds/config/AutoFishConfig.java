@@ -128,6 +128,13 @@ public class AutoFishConfig {
         if (instance.autoRecastMinutes < 0) {
             instance.autoRecastMinutes = 2.0;
         }
+        // 旧配置文件缺少新字段时 Gson 会得到 0.0，需要兜底为默认值
+        if (instance.castIntervalSeconds <= 0) {
+            instance.castIntervalSeconds = 1.0;
+        }
+        if (instance.castIntervalRandomSeconds < 0) {
+            instance.castIntervalRandomSeconds = 0.5;
+        }
     }
     
     public static void save() {

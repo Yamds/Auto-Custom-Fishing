@@ -22,6 +22,8 @@ public class FishingController {
     private static boolean waitingForGame = false; // 是否在等待游戏开始
     private static long castStartTime = 0; // 投竿开始时间（用于超时重抛）
     private static long noHookSince = 0; // 鱼钩消失计时（异常兜底：1分钟未抛竿强制抛竿）
+    private static long waitRecastSince = 0; // 等待重抛计时起点
+    private static long waitRecastDelayMs = 0; // 等待重抛间隔（毫秒）
     
     private enum FishingState {
         IDLE,           // 空闲
@@ -29,7 +31,8 @@ public class FishingController {
         WAITING_BITE,   // 等待咬钩
         FISH_BITE,      // 鱼咬钩了，准备收杆
         PLAYING_GAME,   // 游戏中
-        REELING         // 收竿中
+        REELING,        // 收竿中
+        WAIT_RECAST     // 等待间隔后重新抛竿
     }
     
     /**
@@ -84,8 +87,8 @@ public class FishingController {
             sendActionBarMessage("§7超时未收杆，重新抛竿...");
             performClick(client);
             waitingForGame = false;
-            scheduleRecast();
             reset();
+            scheduleRecast();
             return;
         }
         
@@ -96,8 +99,8 @@ public class FishingController {
             } else if (currentTime - noHookSince > 60_000) {
                 sendActionBarMessage("§c⚠检测到1分钟未抛竿，强制抛竿...");
                 noHookSince = 0;
-                scheduleRecast();
                 reset();
+                scheduleRecast();
                 return;
             }
         } else {
@@ -107,10 +110,16 @@ public class FishingController {
         // 状态机逻辑
         switch (state) {
             case IDLE:
-                // 如果没有鱼钩实体，尝试投竿
-                if (player.fishing == null) {
-                    castRod(client);
+                // 如果没有鱼钩实体，尝试投竿（未成功则保持IDLE，下个tick自动重试）
+                if (player.fishing == null && castRod(client)) {
                     state = FishingState.CASTING;
+                }
+                break;
+                
+            case WAIT_RECAST:
+                // 等待间隔到期后自动重新抛竿
+                if (currentTime - waitRecastSince >= waitRecastDelayMs) {
+                    state = FishingState.IDLE;
                 }
                 break;
                 
@@ -132,8 +141,8 @@ public class FishingController {
                     // 0.5秒内没有检测到游戏，说明钓到了普通物品
                     sendActionBarMessage("§7钓到普通物品，重新抛竿...");
                     waitingForGame = false;
-                    scheduleRecast();
                     reset();
+                    scheduleRecast();
                 }
                 // 检查鱼钩是否消失
                 else if (player.fishing == null) {
@@ -141,9 +150,11 @@ public class FishingController {
                         // 鱼钩消失但没有游戏，说明钓到了普通物品
                         sendActionBarMessage("§7钓到普通物品，重新抛竿...");
                         waitingForGame = false;
+                        reset();
                         scheduleRecast();
+                    } else {
+                        reset();
                     }
-                    reset();
                 }
                 break;
                 
@@ -180,16 +191,16 @@ public class FishingController {
                 } else if (player.fishing == null) {
                     // 游戏结束
                     AutoFishingMod.LOGGER.info("=== GAME END ===");
-                    scheduleRecast();
                     reset();
+                    scheduleRecast();
                 }
                 break;
                 
             case REELING:
                 // 等待收竿完成
                 if (player.fishing == null) {
-                    scheduleRecast();
                     reset();
+                    scheduleRecast();
                 }
                 break;
         }
@@ -211,13 +222,14 @@ public class FishingController {
     
     /**
      * 投竿
+     * @return 是否成功发起投竿（受500ms防过快限制，失败时保持IDLE自动重试）
      */
-    private static void castRod(Minecraft client) {
+    private static boolean castRod(Minecraft client) {
         long currentTime = System.currentTimeMillis();
         
         // 防止操作过快
         if (currentTime - lastActionTime < 500) {
-            return;
+            return false;
         }
         
         if (client.gameMode != null && client.player != null) {
@@ -228,11 +240,14 @@ public class FishingController {
             lastActionTime = currentTime;
             castStartTime = currentTime;
             sendActionBarMessage("§b🎣等待咬钩...");
+            return true;
         }
+        return false;
     }
     
     /**
      * 安排重新投竿（间隔可配置，带随机浮动）
+     * 由主循环 tick 计时（WAIT_RECAST 状态），不使用后台线程，避免覆盖状态导致卡死
      */
     private static void scheduleRecast() {
         // 基础间隔 ± 随机浮动（秒），模拟真人操作节奏
@@ -243,15 +258,9 @@ public class FishingController {
         if (delayMs < 200) {
             delayMs = 200; // 下限保护，避免操作过快
         }
-        final long sleepMs = (long) delayMs;
-        new Thread(() -> {
-            try {
-                Thread.sleep(sleepMs);
-                state = FishingState.IDLE;
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }).start();
+        waitRecastDelayMs = (long) delayMs;
+        waitRecastSince = System.currentTimeMillis();
+        state = FishingState.WAIT_RECAST;
     }
     
     /**
