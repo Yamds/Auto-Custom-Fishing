@@ -1,4 +1,4 @@
-package com.autofishing.config;
+package cafe.yamds.config;
 
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;

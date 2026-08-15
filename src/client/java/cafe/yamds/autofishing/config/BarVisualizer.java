@@ -1,4 +1,4 @@
-package com.autofishing.config;
+package cafe.yamds.config;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;

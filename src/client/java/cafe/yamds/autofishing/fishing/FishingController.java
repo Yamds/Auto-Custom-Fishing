@@ -1,10 +1,10 @@
-package com.autofishing.fishing;
+package cafe.yamds.fishing;
 
-import com.autofishing.AutoFishingMod;
-import com.autofishing.config.AutoFishConfig;
-import com.autofishing.config.FishingLog;
-import com.autofishing.game.GameState;
-import com.autofishing.game.TitleAnalyzer;
+import cafe.yamds.AutoFishingMod;
+import cafe.yamds.config.AutoFishConfig;
+import cafe.yamds.config.FishingLog;
+import cafe.yamds.game.GameState;
+import cafe.yamds.game.TitleAnalyzer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.item.ItemStack;

@@ -1,9 +1,9 @@
-package com.autofishing;
+package cafe.yamds;
 
-import com.autofishing.config.AutoFishConfig;
-import com.autofishing.config.AutoFishConfigScreen;
-import com.autofishing.config.KeyBindings;
-import com.autofishing.fishing.FishingController;
+import cafe.yamds.config.AutoFishConfig;
+import cafe.yamds.config.AutoFishConfigScreen;
+import cafe.yamds.config.KeyBindings;
+import cafe.yamds.fishing.FishingController;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.network.chat.Component;

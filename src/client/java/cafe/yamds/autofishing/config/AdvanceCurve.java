@@ -1,4 +1,4 @@
-package com.autofishing.config;
+package cafe.yamds.config;
 
 import java.util.ArrayList;
 import java.util.Collections;

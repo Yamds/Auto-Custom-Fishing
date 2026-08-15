@@ -1,6 +1,6 @@
-package com.autofishing.config;
+package cafe.yamds.config;
 
-import com.autofishing.AutoFishingMod;
+import cafe.yamds.AutoFishingMod;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

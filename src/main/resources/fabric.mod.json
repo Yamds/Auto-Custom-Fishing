@@ -2,27 +2,27 @@
 	"schemaVersion": 1,
 	"id": "autofishing",
 	"version": "${version}",
-	"name": "Auto Fishing Mod",
+	"name": "Auto Custom Fishing",
 	"description": "Automatic fishing mod for CustomFishing plugin (River fishing support)",
 	"authors": [
 		"AutoFishing Team"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/cafe-yamds/auto-custom-fishing"
 	},
 	"license": "CC0-1.0",
-	"icon": "assets/modid/icon.png",
+	"icon": "assets/autofishing/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"com.autofishing.AutoFishingMod"
+			"cafe.yamds.AutoFishingMod"
 		],
 		"client": [
-			"com.autofishing.AutoFishingClient"
+			"cafe.yamds.AutoFishingClient"
 		],
 		"modmenu": [
-			"com.autofishing.config.ModMenuIntegration"
+			"cafe.yamds.config.ModMenuIntegration"
 		]
 	},
 	"mixins": [
@@ -39,6 +39,6 @@
 		"fabric-api": "*"
 	},
 	"suggests": {
-		"another-mod": "*"
+		"modmenu": "*"
 	}
 }

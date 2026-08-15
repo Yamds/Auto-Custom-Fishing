@@ -1,8 +1,8 @@
-package com.autofishing.mixin;
+package cafe.yamds.mixin;
 
-import com.autofishing.AutoFishingMod;
-import com.autofishing.config.AutoFishConfig;
-import com.autofishing.fishing.FishingController;
+import cafe.yamds.AutoFishingMod;
+import cafe.yamds.config.AutoFishConfig;
+import cafe.yamds.fishing.FishingController;
 import net.minecraft.world.entity.projectile.FishingHook;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
